@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lei.dao.OrderDao">
+    <!--
+    paramterType
+        使用简单类型的参数，在 #{} 中的名字可以随便写
+        传递多个参数
+            1.使用在方法处使用：@Param命名参数
+                List<Student> selectStuds(@Param("id") String id,@Param("age") Integer age);
+            2.传递对象
+                #{} 中必须为对象的属性
+            3.传递map
+                #{} 中必须为map的key
+        parameterType 一般不写，mybatis会自动识别
+    -->
+    <!--
+        #{}：占位符，可以防止sql注入
+        ${}：字符串拼接
+    -->
+    <!--
+    模糊查询
+        方式1：使用 ${} ，拼接sql（了解，不常用）
+            select * from t_student where name like '%${value}%'
+        方式2：使用 #{} ,占位符，直接传入拼接好的条件字符串
+            String value="%z%";
+            select * from t_student where name like #{value}
+        方式3：使用 #{} ,占位符，传入条件字符串，在sql中拼接，sql中空格相当于拼接
+            select * from t_student where name like % #{value} %
+    -->
+    <!--
+    resultType与resultMap
+        resultType 可以为domain类型（常用），也可以是map；
+        在domain类型封装不了结果类型时，使用map
+        例如：根据姓名分组，并返回每一个姓名对应的数量，使用map进行封装；查询字段与doamin属性不一致时 都使用map
+    -->
+    <select id="select1" parameterType="java.lang.String" resultType="Order">
+        select * from tb_student where id=#{id}
+    </select>
+</mapper>
